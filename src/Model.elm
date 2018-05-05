@@ -6,9 +6,8 @@ import Grid exposing (Grid)
 import Random
 import Color exposing (Color)
 import Time exposing (Time)
-import Tetriminos
+import Tetriminos exposing (..)
 import Window exposing (Size)
-
 
 type State
     = Paused
@@ -48,11 +47,11 @@ type alias AnimationState =
 
 type alias Model =
     { size : Size
-    , active : Grid Color
+    , active : Tetrimino
     , position : ( Int, Float )
     , grid : Grid Color
     , lines : Int
-    , next : Grid Color
+    , next : Tetrimino
     , score : Int
     , seed : Random.Seed
     , state : State
@@ -63,6 +62,7 @@ type alias Model =
     , rotation : AnimationState
     , width : Int
     , height : Int
+    , stored : Tetrimino
     }
 
 
@@ -74,7 +74,7 @@ initial =
     in
         spawnTetrimino
             { size = Size 0 0
-            , active = Grid.empty
+            , active = blank
             , position = ( 0, 0 )
             , grid = Grid.empty
             , lines = 0
@@ -89,6 +89,7 @@ initial =
             , direction = Nothing
             , width = 10
             , height = 20
+            , stored = blank
             }
 
 
@@ -157,12 +158,12 @@ encode indent model =
     Encode.encode
         indent
         (Encode.object
-            [ ( "active", Grid.encode encodeColor model.active )
+            [ ( "active", Grid.encode encodeColor (model.active) )
             , ( "positionX", Encode.int (Tuple.first model.position) )
             , ( "positionY", Encode.float (Tuple.second model.position) )
             , ( "grid", Grid.encode encodeColor model.grid )
             , ( "lines", Encode.int model.lines )
-            , ( "next", Grid.encode encodeColor model.next )
+            , ( "next", Grid.encode encodeColor (model.next) )
             , ( "score", Encode.int model.score )
             , ( "state", Encode.string (encodeState model.state) )
             ]

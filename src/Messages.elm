@@ -15,4 +15,5 @@ type Msg
     | Rotate Bool
     | Accelerate Bool
     | Resize Size
+    | StoreTetrimino
     | Noop

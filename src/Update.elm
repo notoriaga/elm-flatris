@@ -1,5 +1,6 @@
 port module Update exposing (update)
 
+import Tetriminos exposing (blank)
 import Model exposing (..)
 import Messages exposing (..)
 import Time exposing (Time)
@@ -72,6 +73,20 @@ update msg model =
             model
                 |> animate (min time 25)
                 |> saveToStorage
+
+        StoreTetrimino ->
+            if model.stored == blank then
+                ( { model | stored = model.active }
+                    |> Model.spawnTetrimino
+                , Cmd.none
+                )
+            else
+                ( { model
+                    | stored = model.active
+                    , active = model.stored
+                  }
+                , Cmd.none
+                )
 
         Noop ->
             ( model, Cmd.none )

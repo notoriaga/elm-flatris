@@ -30,8 +30,8 @@ renderBox ( xOff, yOff ) fun c ( x, y ) =
         |> Collage.move ( (toFloat x + xOff) * 30, (toFloat y + yOff) * -30 )
 
 
-renderNext : Grid Color -> Html Msg
-renderNext grid =
+renderGhost : Grid Color -> Html Msg
+renderGhost grid =
     let
         ( width, height ) =
             Grid.size grid
@@ -132,7 +132,7 @@ renderGameButton state =
 
 
 renderPanel : Model -> Html Msg
-renderPanel { score, lines, next, state } =
+renderPanel { score, lines, next, state, stored } =
     div
         [ style
             [ ( "bottom", "80px" )
@@ -158,7 +158,15 @@ renderPanel { score, lines, next, state } =
                 , ( "position", "relative" )
                 ]
             ]
-            [ renderNext next ]
+            [ renderGhost next ]
+        , renderLabel "Held"
+        , div
+            [ style
+                [ ( "margin-top", "10px" )
+                , ( "position", "relative" )
+                ]
+            ]
+            [ renderGhost stored ]
         , renderGameButton state
         ]
 

@@ -50,5 +50,12 @@ key on { rotation, direction, acceleration } keycode =
         38 ->
             Rotate on
 
+        90 ->
+            if on == True then
+                StoreTetrimino
+            else
+                Noop
+
         _ ->
             Noop
+

@@ -1,4 +1,4 @@
-module Grid exposing (Grid, decode, encode, fromList, empty, rotate, stamp, collide, mapToList, clearLines, initPosition, size)
+module Grid exposing (Grid, create, decode, encode, empty, rotate, stamp, collide, mapToList, clearLines, initPosition, size)
 
 import Json.Decode as Decode
 import Json.Encode as Encode
@@ -14,9 +14,9 @@ type alias Grid a =
     List (Cell a)
 
 
-fromList : a -> List ( Int, Int ) -> Grid a
-fromList value =
-    List.map (Cell value)
+create : a -> List ( Int, Int ) -> Grid a
+create color cells =
+    List.map (Cell color) cells
 
 
 mapToList : (a -> ( Int, Int ) -> b) -> Grid a -> List b
